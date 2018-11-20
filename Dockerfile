@@ -12,10 +12,10 @@ RUN \
   libssl-dev \
   libxml2-dev \
   libxslt1-dev \
-  zlib1g-dev
+  zlib1g-dev && \
+  pip install --upgrade pip
 
 RUN \
-  pip install --upgrade pip && \
   pip install requests && \
   pip install requests[security] && \
   pip install requests-cache && \
@@ -25,14 +25,16 @@ RUN \
   pip install stevedore==1.19.1 && \
   pip install python-dateutil && \
   pip install qtfaststart && \
-  git clone git://github.com/mdhiggins/sickbeard_mp4_automator.git /sickbeard_mp4_automator/ && \
-  touch /sickbeard_mp4_automator/info.log && \
-  chmod a+rwx -R /sickbeard_mp4_automator && \
+  git clone https://github.com/Arbusto/sickbeard_mp4_automator.git /mp4_automator/ && \
+  touch /mp4_automator/info.log && \
+  mkdir /mp4_automator/logs && \
+  touch /mp4_automator/logs/index.log && \
+  chmod 777 -R /mp4_automator && \
   ln -s /downloads /data && \
-  ln -s /config_mp4_automator/autoProcess.ini /sickbeard_mp4_automator/autoProcess.ini && \
+  ln -s /config_mp4_automator/autoProcess.ini /mp4_automator/autoProcess.ini && \
   rm -rf \
 	/tmp/* \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
 
-VOLUME config_mp4_automator
+VOLUME ["/config_mp4_automator"]
